@@ -30,20 +30,25 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 Record your plan here before editing code.
 
-- Presentation tier decision:
-- Logic tier decision:
-- Data tier decision:
-- Activity tracking approach:
-- Team management approach:
-- Leaderboard approach:
-- Workout suggestions approach:
+- Presentation tier decision: Use route-specific React components with shared API fetching and Bootstrap states.
+- Logic tier decision: Keep Express routes thin and implement validation, reference checks, and aggregation in the service layer.
+- Data tier decision: Enforce required fields and relationships with Mongoose schemas and stable upsert-based seed records.
+- Activity tracking approach: Validate IDs and positive minutes, verify both references, then compute points as minutes and set occurredAt.
+- Team management approach: Validate name and mascot, validate optional member IDs, and persist a team with a default empty member list.
+- Leaderboard approach: Aggregate activity points by team, join team names, sort descending, and assign 1-based ranks.
+- Workout suggestions approach: Match seeded users by email, prefer a recent activity-to-focus mapping, and fall back to the user's fitness goal.
 
 ## Test plan
 
 Record the commands you run and what each failure means.
 
 - Data-tier command: `npm run test:data --prefix octofit-tracker/backend`
+  - Passing verifies Mongoose validation and idempotent seed reconciliation; a failure indicates a schema or fixture problem.
 - API command: `npm run test:api --prefix octofit-tracker/backend`
+  - Passing verifies activity, team, leaderboard, and workout API contracts; a failure indicates route or service behavior is wrong.
 - Frontend command: `npm test --prefix octofit-tracker/frontend`
+  - Passing verifies loading, empty, success, error, and navigation states; a failure indicates presentation behavior or API URL usage is wrong.
 - Backend build command: `npm run build --prefix octofit-tracker/backend`
+  - Passing verifies backend TypeScript correctness.
 - Frontend build command: `npm run build --prefix octofit-tracker/frontend`
+  - Passing verifies frontend TypeScript and Vite production bundling.
